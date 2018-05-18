@@ -41,11 +41,15 @@ RUN	\
 	&& ln -sf /dev/stdout /var/log/apache2/access.log \
 	&& ln -sf /dev/stderr /var/log/apache2/error.log \
 	&& chmod 755 /sbin/entrypoint.sh \
-    && chown www-data:www-data ${PHP_DATA_DIR} -Rf
+    && chown www-data:www-data ${PHP_DATA_DIR} -Rf \
+    && sed -i -e 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php/5.6/apache2/php.ini \
+    && sed -i -e 's/upload_max_filesize = 2M/upload_max_filesize = 256M/g' /etc/php/5.6/apache2/php.ini \
+    && sed -i -e 's/post_max_size = 8M/post_max_size = 512M/g' /etc/php/5.6/apache2/php.ini \
+    && sed -i -e 's/memory_limit = 128M/memory_limit = 512M/g' /etc/php/5.6/apache2/php.ini
+    
 
 COPY ./configs/apache2.conf ${APACHE_CONF_DIR}/apache2.conf
 COPY ./configs/app.conf ${APACHE_CONF_DIR}/sites-enabled/app.conf
-COPY ./configs/php.ini  ${PHP_CONF_DIR}/apache2/conf.d/custom.ini
 
 WORKDIR /var/www/app/
 
