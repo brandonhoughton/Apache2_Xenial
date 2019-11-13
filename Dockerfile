@@ -52,14 +52,14 @@ COPY ./config/default.conf /etc/apache2/000-default.conf
 COPY ./config/apache2.conf /etc/apache2/apache2.conf
 COPY ./config/ports.conf /etc/apache2/ports.conf
 
-# Manually set the apache environment variables in order to get apache to work immediately.
-RUN \
-  echo www-data > /etc/container_environment/APACHE_RUN_USER && \
-  echo www-data > /etc/container_environment/APACHE_RUN_GROUP && \
-  echo /var/log/apache2 > /etc/container_environment/APACHE_LOG_DIR && \
-  echo /var/lock/apache2 > /etc/container_environment/APACHE_LOCK_DIR && \
-  echo /var/run/apache2.pid > /etc/container_environment/APACHE_PID_FILE && \
-  echo /var/run/apache2 > /etc/container_environment/APACHE_RUN_DIR
+# # Manually set the apache environment variables in order to get apache to work immediately.
+# RUN \
+#   echo www-data > /etc/container_environment/APACHE_RUN_USER && \
+#   echo www-data > /etc/container_environment/APACHE_RUN_GROUP && \
+#   echo /var/log/apache2 > /etc/container_environment/APACHE_LOG_DIR && \
+#   echo /var/lock/apache2 > /etc/container_environment/APACHE_LOCK_DIR && \
+#   echo /var/run/apache2.pid > /etc/container_environment/APACHE_PID_FILE && \
+#   echo /var/run/apache2 > /etc/container_environment/APACHE_RUN_DIR
 
 # Expose Ports
 EXPOSE 80 443
@@ -68,7 +68,7 @@ EXPOSE 80 443
 VOLUME ["/config", "/web", "/logs"]
 
 # Add our crontab file
-ADD crons.conf /root/crons.conf
+ADD ./config/crons.conf /root/crons.conf
 
 # # Add firstrun.sh to execute during container startup
 # ADD firstrun.sh /etc/my_init.d/firstrun.sh
