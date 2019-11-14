@@ -88,6 +88,7 @@ ADD ./config/crons.conf /root/crons.conf
 
 
 # By default, simply start apache.
+COPY entrypoint.sh /sbin/entrypoint.sh
 CMD ["/sbin/entrypoint.sh"]
 
 
